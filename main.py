@@ -2,11 +2,13 @@
 import time
 
 from traceRoute import main as traceRoute
+from IPs_To_Locations import main as IPs_To_Locations
+from animation import main as animation
 '''
 import geoip2.webservice
 import geoip2.database
 import pygeoip
-import requests
+
 import plotly.express as px
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -28,26 +30,31 @@ def get_average_ping_speed(hops):
     average_ping_speed = total_ping_time / number_of_hops
     return average_ping_speed
 
-def get_coordinates(ip_address):
-  """Gets the coordinates of the IP address."""
-  url = "https://api.ipgeolocation.io/ipgeo?apiKey=145e6389042840f58f7aff63fab3b5e1&ip={}".format(ip_address)
-  response = requests.get(url)
-  if response.status_code == 200:
-    data = response.json()
-    #print(data)
-    return float(data["latitude"]), float(data["longitude"])
-  else:
-    print("Error getting coordinates: {}".format(response.status_code))
-    return None
+
 '''
 
 
 
 def main():
-    destinationIP = "8.8.8.8"
-    hops = traceRoute(destinationIP)
-    print(hops)
-
+    destinationIPs = [ "8.8.8.8", #Google
+                       "1.1.1.1", #Cloudflare
+                       "208.67.222.222", #OpenDNS
+                       "9.9.9.9", #Quad9
+                       "4.2.2.1" #CenturyLink
+    ]
+    locationsList = []
+    for IP in destinationIPs:
+    #destinationIP = "8.8.8.8"
+        hops = traceRoute(IP)
+        #print(hops)
+        locations = IPs_To_Locations(hops)
+        locationsList.append(locations)
+    #print(locations)
+    #locations = [(40.64505, -111.28162), (38.89037, -77.03196), (38.89037, -77.03196), (38.89037, -77.03196), (38.89037, -77.03196), (34.05357, -118.24545), (37.4224, -122.08421), (37.4224, -122.08421)]
+    animation(locationsList)
+   
+ #70, -168
+    #23, -61
 
 '''
     #ipList = get_values_in_brackets(hops)
