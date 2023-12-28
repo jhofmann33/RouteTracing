@@ -1,6 +1,6 @@
-import subprocess
+
 import time
-import re
+
 import geoip2.webservice
 import geoip2.database
 import pygeoip
