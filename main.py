@@ -32,6 +32,21 @@ def get_average_ping_speed(hops):
 
 
 '''
+def save_to_file(data, filename):
+    with open(filename, 'w') as file:
+        for sublist in data:
+            line = ', '.join(map(str, sublist)) + '\n'
+            file.write(line)
+
+def read_from_file(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+
+    # Remove unnecessary characters and split into lists of floats
+    coordinates_list = [eval(f"[{line.strip()}]") for line in lines]
+
+    return coordinates_list
+
 
 
 
@@ -40,18 +55,30 @@ def main():
                        "1.1.1.1", #Cloudflare
                        "208.67.222.222", #OpenDNS
                        "9.9.9.9", #Quad9
-                       "4.2.2.1" #CenturyLink
+                       "4.2.2.1", #CenturyLink
+                       "amazon.com", #Amazon
+                       "apple.com", #Apple
+                       "chase.com", #Chase
+                       "LinkedIn.com", #LinkedIn
+                       "Instagram.com", #Instagram
+                       "Wikipedia.org", #Wikipedia
+                       "X.com" #X
     ]
     locationsList = []
+    
     for IP in destinationIPs:
     #destinationIP = "8.8.8.8"
         hops = traceRoute(IP)
         #print(hops)
         locations = IPs_To_Locations(hops)
         locationsList.append(locations)
+    save_to_file(locationsList, "RouteTracing/locationList.txt") 
+    '''
+    '''
     #print(locations)
     #locations = [(40.64505, -111.28162), (38.89037, -77.03196), (38.89037, -77.03196), (38.89037, -77.03196), (38.89037, -77.03196), (34.05357, -118.24545), (37.4224, -122.08421), (37.4224, -122.08421)]
-    animation(locationsList)
+    print(read_from_file("locationList.txt"))
+   # animation(read_from_file("locationList.txt"))
    
  #70, -168
     #23, -61

@@ -9,7 +9,9 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
+
 def interpolate_points(point1, point2, num_points):
+    #print(f"point1 type: {type(point1)}, point2 type: {type(point2)}")
     lon_values = np.linspace(point1[0], point2[0], num_points)
     lat_values = np.linspace(point1[1], point2[1], num_points)
     return list(zip(lon_values, lat_values))
