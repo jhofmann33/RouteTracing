@@ -18,4 +18,4 @@ This module will take a list of IPs and get the corresponding coordinates to eac
 # Main
 #-------------------------------------------------------------------
 def main():
-    
+    print("not configured!")    

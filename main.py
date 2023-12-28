@@ -1,6 +1,9 @@
 
 import time
 
+
+from traceRoute import main as traceRoute
+'''
 import geoip2.webservice
 import geoip2.database
 import pygeoip
@@ -11,41 +14,11 @@ from matplotlib.animation import FuncAnimation
 import geopandas as gpd
 from gmplot import gmplot
 
+
+
 #test = subprocess.Popen(["ping","-W","2","-c", "1", "192.186.1.254"], stdout=subprocess.PIPE)
 #output = test.communicate()[0]
 #print(output)
-
-
-def trace_route_google():
-    """Sends a trace route ping to Google and returns the response."""
-    command = ["traceroute", "8.8.8.8"]
-    process = subprocess.Popen(command, stdout=subprocess.PIPE)
-    output, _ = process.communicate()
-    return output
-    #return bytes(output, "utf-8")
-    #return output
-
-def get_hops(command):
-  """Gets the hops from the traceroute output."""
-
-  process = subprocess.Popen(command, stdout=subprocess.PIPE)
-  output, _ = process.communicate()
-
-  hops = []
-
-  for line in output.decode("utf-8").splitlines():
-    line = line.strip()
-    if line.startswith("  "):
-      match = re.search(r"(\d+\.\d+) \((\w\-)+(?: ([\w\-]+) ms)?\)", line)
-      if match:
-        hops.append((match.group(1), match.group(2), match.group(3)))
-    else:
-      if line != "* * *":
-        hops.append(line)
-
-  return hops
-
-
 
 def get_average_ping_speed(hops):
     """Calculates the average ping speed for the hops."""
@@ -76,19 +49,16 @@ def get_values_in_brackets(text):
     for value in values:
         print(value)
     return values
-
+'''
 
 def main():
-    """Sends a trace route ping to Google and prints the response."""
-    print("Beginning...")
-    #response = trace_route_google()
-    #print(type(response))
-    #hops = get_hops(response)
-    #average_ping_speed = get_average_ping_speed(hops)
-    #print(response)
-    command = ["traceroute", "8.8.8.8"]
-    hops = get_hops(command)
-    ipList = get_values_in_brackets(hops)
+    destinationIP = "8.8.8.8"
+    hops = traceRoute(destinationIP)
+    print(hops)
+    
+
+'''
+    #ipList = get_values_in_brackets(hops)
 ##    print("---------------")
 ##    print(response[0])
 ##    print("-----")
@@ -141,8 +111,7 @@ def main():
 
     plt.show()
 
-
-
+'''
     
 if __name__ == "__main__":
   main()
