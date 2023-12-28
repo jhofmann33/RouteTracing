@@ -29,6 +29,13 @@ def get_hops(command):
                 hops.append(line)
     return hops
 
+def pull_IPs_From_Hops(hops):
+    #Cleans up hop output to pull only ip's and form list
+    lines = str(hops).splitlines()
+    for line in lines:
+        #Gets the values in parentheses from the lines.
+        values = re.findall(r"\((.*?)\)", line)
+    return values
 
 #-------------------------------------------------------------------
 # Main
@@ -36,4 +43,5 @@ def get_hops(command):
 def main(destinationIP):
     command = ["traceroute", str(destinationIP)]
     hops = get_hops(command)
-    return(hops)
+    IP_List = pull_IPs_From_Hops(hops)
+    return(IP_List)

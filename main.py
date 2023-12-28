@@ -1,7 +1,6 @@
 
 import time
 
-
 from traceRoute import main as traceRoute
 '''
 import geoip2.webservice
@@ -40,22 +39,15 @@ def get_coordinates(ip_address):
   else:
     print("Error getting coordinates: {}".format(response.status_code))
     return None
-def get_values_in_brackets(text):
-    lines = str(text).splitlines()
-    for line in lines:
-        #print(line)
-        """Gets the values in parentheses from the lines."""
-        values = re.findall(r"\((.*?)\)", line)
-    for value in values:
-        print(value)
-    return values
 '''
+
+
 
 def main():
     destinationIP = "8.8.8.8"
     hops = traceRoute(destinationIP)
     print(hops)
-    
+
 
 '''
     #ipList = get_values_in_brackets(hops)
