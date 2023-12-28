@@ -18,7 +18,7 @@ def get_coordinates(ip_address):
   if response.status_code == 200:
     data = response.json()
     #print(data)
-    return float(data["latitude"]), float(data["longitude"])
+    return float(data["longitude"]), float(data["latitude"])
   else:
     #print("Error getting coordinates: {}".format(response.status_code))
     return None
@@ -31,7 +31,10 @@ def remove_nones(input_list):
 #-------------------------------------------------------------------
 def main(IPList):
     coords = []
+    #cleaned_coords = []
     for IP in IPList:
-       coords.append(get_coordinates(IP))
-       cleaned_coords = remove_nones(coords)
-    return cleaned_coords    
+       temp = (get_coordinates(IP))
+       if temp != None:
+          coords.append(temp)
+       #cleaned_coords = remove_nones(coords)
+    return coords    

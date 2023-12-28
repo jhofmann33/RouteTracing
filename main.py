@@ -39,30 +39,55 @@ def save_to_file(data, filename):
             file.write(line)
 
 def read_from_file(filename):
+    master_list = []
+
+    # Assuming 'file.txt' is your text file
     with open(filename, 'r') as file:
-        lines = file.readlines()
+        for line in file:
+            # Remove newline characters
+            line = line.strip()
+        
+            # Split the line into tuples
+            tuples = line.split('), ')
+        
+            # Initialize an empty list for this line
+            line_list = []
+        
+            for t in tuples:
+                # Remove parentheses
+                t = t.replace('(', '').replace(')', '')
+            
+                # Split the tuple into two parts
+                parts = t.split(', ')
+            
+                # Convert parts to floats and add to line_list
+                line_list.append((float(parts[0]), float(parts[1])))
+        
+            # Add line_list to master_list
+            master_list.append(line_list)
 
-    # Remove unnecessary characters and split into lists of floats
-    coordinates_list = [eval(f"[{line.strip()}]") for line in lines]
+    return master_list
 
-    return coordinates_list
+
+
+
 
 
 
 
 def main():
     destinationIPs = [ "8.8.8.8", #Google
-                       "1.1.1.1", #Cloudflare
-                       "208.67.222.222", #OpenDNS
+                      # "1.1.1.1", #Cloudflare
+                       #"208.67.222.222", #OpenDNS
                        "9.9.9.9", #Quad9
-                       "4.2.2.1", #CenturyLink
-                       "amazon.com", #Amazon
-                       "apple.com", #Apple
-                       "chase.com", #Chase
-                       "LinkedIn.com", #LinkedIn
-                       "Instagram.com", #Instagram
-                       "Wikipedia.org", #Wikipedia
-                       "X.com" #X
+                     #  "4.2.2.1", #CenturyLink
+                       #"amazon.com", #Amazon
+                     #  "apple.com", #Apple
+                       #"chase.com", #Chase
+                       #"LinkedIn.com", #LinkedIn
+                     #  "Instagram.com", #Instagram
+                       #"Wikipedia.org", #Wikipedia
+                     # "X.com" #X
     ]
     locationsList = []
     
@@ -71,73 +96,24 @@ def main():
         hops = traceRoute(IP)
         #print(hops)
         locations = IPs_To_Locations(hops)
+        print(locations)
         locationsList.append(locations)
-    save_to_file(locationsList, "RouteTracing/locationList.txt") 
+        print(locationsList)
+    #save_to_file(locationsList, "RouteTracing/locationList.txt") 
     '''
     '''
     #print(locations)
     #locations = [(40.64505, -111.28162), (38.89037, -77.03196), (38.89037, -77.03196), (38.89037, -77.03196), (38.89037, -77.03196), (34.05357, -118.24545), (37.4224, -122.08421), (37.4224, -122.08421)]
-    print(read_from_file("locationList.txt"))
-   # animation(read_from_file("locationList.txt"))
-   
+    #print(read_from_file("locationList.txt"))
+    #coordinates_from_file = read_from_file("RouteTracing/locationList.txt")
+    #print(coordinates_from_file)
+    #animation(coordinates_from_file)
+    animation(locationsList)
+    
  #70, -168
     #23, -61
 
-'''
-    #ipList = get_values_in_brackets(hops)
-##    print("---------------")
-##    print(response[0])
-##    print("-----")
-##    print(response[1])
-##    print("-----")
-##    print(response[2])
-##    print("-----")
-##    print(response[3])
-    print("Hops:")
-    coordinates = []
-    for ip_hop in ipList:
-        coordinates.append(get_coordinates(ip_hop))
-    print(coordinates)
-        #print(ip_hop)
-        #print("  {} ({})".format(hop[0], hop[1]))
-        #coordinates.append(get_coordinates(hop))
-        #print(hop)
-    #print("Average ping speed: {} ms".format(average_ping_speed))
-    #print(coordinates)
-    #print(get_coordinates("32.130.91.19"))
-    lats = []
-    lons = []
-    for coord in coordinates:
-        lats.append(coord[0])
-        lons.append(coord[1])
 
-    # Initialize the map at a given point
-    #gmap = gmplot.GoogleMapPlotter(float(coord[0]), float(coord[1]), 13)
-    #for coord in coordinates[1:]:
-        # Add a marker
-    #    gmap.marker(float(coord[0]), float(coord[1]), 'cornflowerblue')
-    # Draw map into HTML file
-    #gmap.draw("my_map.html")
-    # Create a figure and axis
-    fig, ax = plt.subplots()
-    ax.set_xlim(0, 10)
-    ax.set_ylim(0, 10)
-    # Create a dot
-    dot, = ax.plot([], [], marker='o', color='r', markersize=10)
-
-    def init():
-        dot.set_data([], [])
-        return dot,
-
-    def update(frame):
-        x, y = coordinates[frame]
-        dot.set_data(x, y)
-        return dot,
-    ani = FuncAnimation(fig, update, frames=len(coordinates), init_func=init, blit=True)
-
-    plt.show()
-
-'''
     
 if __name__ == "__main__":
   main()
