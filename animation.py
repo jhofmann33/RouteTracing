@@ -1,15 +1,20 @@
+'''
+This module is for mapping the paths of each hop onto a map (either world or NA)
+
+'''
+
+#-------------------------------------------------------------------
+# Imports
+#-------------------------------------------------------------------
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 import geopandas as gpd
 import numpy as np
-import time
 import warnings
 
-# Ignore all warnings
-warnings.filterwarnings("ignore")
-
-
-
+#-------------------------------------------------------------------
+# Functions
+#-------------------------------------------------------------------
 def interpolate_points(point1, point2, num_points):
     #print(f"point1 type: {type(point1)}, point2 type: {type(point2)}")
     lon_values = np.linspace(point1[0], point2[0], num_points)
@@ -33,16 +38,20 @@ def update_dot(num, coordinates, dot, paths):
     return dot,
 
 
-
+#-------------------------------------------------------------------
+# Main
+#-------------------------------------------------------------------
 def main(coordinateLists):
+    # Ignore all warnings
+    warnings.filterwarnings("ignore")
     # Load a world map using geopandas
     world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
     north_america = world[world['continent'] == 'North America']
 
     # Create a figure and axis with the world map
     fig, ax = plt.subplots()
-    world.plot(ax=ax)
-    #north_america.plot(ax=ax)
+    world.plot(ax=ax) #show world map
+    #north_america.plot(ax=ax) #show NA map
 
     # Interpolate points for all paths
     paths = []
@@ -62,13 +71,12 @@ def main(coordinateLists):
     # Create the animation
     ani = FuncAnimation(fig, update_dot, fargs=(coordinates, dot, paths), frames=sum(len(path) for path in [coordinates] + paths), interval=25, blit=True, repeat=False)
 
-    plt.show()
+    plt.show(block=False)
+    plt.pause(float(sum(len(path) for path in [coordinates] + paths) * 25) / 1000)  # duration of the animation
+    plt.close(fig)
 
-    # Check if all paths have been traversed
-    #if not paths:
-        #return "done"
 
-# Example usage:
+# Example local debug:
 #coordinates1 = [(-111.28162, 40.64505), (-77.03196, 38.89037), (-118.24545, 34.05357), (-122.08421, 37.4224)]
 #coordinates2 = [(-80.84313, 35.22709), (-87.65005, 41.85003), (-73.56725, 45.50169), (-79.38318, 43.65323)]
 #print(main([coordinates1, coordinates2]))
