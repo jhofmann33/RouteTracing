@@ -17,21 +17,21 @@ def interpolate_points(point1, point2, num_points):
     return list(zip(lon_values, lat_values))
 
 def update_dot(num, coordinates, dot, paths):
-    if num == len(coordinates) - 1:
-        # Pause for 5 seconds at the end of a path
+    if num < len(coordinates):
+        lon, lat = coordinates[num]
+        dot.set_data(lon, lat)
+    elif paths:
+        # Pause for 3 seconds at the end of a path
         plt.pause(3)
-        # Check if there are more paths
-        if paths:
-            # Reset the dot to the start of the next path
-            next_path = paths.pop(0)
-            coordinates.extend(next_path)
-        else:
-            # No more paths, stop the animation
-            plt.close()
-            exit
-    lon, lat = coordinates[num]
-    dot.set_data(lon, lat)
+        # Reset the dot to the start of the next path
+        next_path = paths.pop(0)
+        coordinates.extend(next_path)
+    else:
+        # No more paths, stop the animation
+        plt.close()
+        exit
     return dot,
+
 
 
 def main(coordinateLists):
@@ -41,7 +41,8 @@ def main(coordinateLists):
 
     # Create a figure and axis with the world map
     fig, ax = plt.subplots()
-    north_america.plot(ax=ax)
+    world.plot(ax=ax)
+    #north_america.plot(ax=ax)
 
     # Interpolate points for all paths
     paths = []
@@ -59,7 +60,7 @@ def main(coordinateLists):
     dot, = ax.plot(initial_lon, initial_lat, 'ro')  # 'ro' means red color, round marker
 
     # Create the animation
-    ani = FuncAnimation(fig, update_dot, fargs=(coordinates, dot, paths), frames=sum(len(path) for path in [coordinates] + paths), interval=15, blit=True, repeat=False)
+    ani = FuncAnimation(fig, update_dot, fargs=(coordinates, dot, paths), frames=sum(len(path) for path in [coordinates] + paths), interval=25, blit=True, repeat=False)
 
     plt.show()
 

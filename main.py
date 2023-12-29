@@ -77,38 +77,38 @@ def read_from_file(filename):
 
 def main():
     destinationIPs = [ "8.8.8.8", #Google
-                      # "1.1.1.1", #Cloudflare
-                       #"208.67.222.222", #OpenDNS
-                       "9.9.9.9", #Quad9
-                     #  "4.2.2.1", #CenturyLink
-                       #"amazon.com", #Amazon
-                     #  "apple.com", #Apple
-                       #"chase.com", #Chase
-                       #"LinkedIn.com", #LinkedIn
-                     #  "Instagram.com", #Instagram
-                       #"Wikipedia.org", #Wikipedia
-                     # "X.com" #X
+                        "1.1.1.1", #Cloudflare
+                        "208.67.222.222", #OpenDNS
+                        "9.9.9.9", #Quad9
+                        "4.2.2.1", #CenturyLink
+                        "amazon.com", #Amazon
+                        "apple.com", #Apple
+                        "chase.com", #Chase
+                        "LinkedIn.com", #LinkedIn
+                        "Instagram.com", #Instagram
+                        "Wikipedia.org", #Wikipedia
+                        "X.com" #X
     ]
     locationsList = []
-    
+    '''
     for IP in destinationIPs:
     #destinationIP = "8.8.8.8"
         hops = traceRoute(IP)
         #print(hops)
         locations = IPs_To_Locations(hops)
-        print(locations)
+        #print(locations)
         locationsList.append(locations)
-        print(locationsList)
-    #save_to_file(locationsList, "RouteTracing/locationList.txt") 
-    '''
+        #print(locationsList)
+    save_to_file(locationsList, "RouteTracing/locationList.txt") 
+  
     '''
     #print(locations)
     #locations = [(40.64505, -111.28162), (38.89037, -77.03196), (38.89037, -77.03196), (38.89037, -77.03196), (38.89037, -77.03196), (34.05357, -118.24545), (37.4224, -122.08421), (37.4224, -122.08421)]
     #print(read_from_file("locationList.txt"))
-    #coordinates_from_file = read_from_file("RouteTracing/locationList.txt")
+    coordinates_from_file = read_from_file("RouteTracing/locationList.txt")
     #print(coordinates_from_file)
-    #animation(coordinates_from_file)
-    animation(locationsList)
+    animation(coordinates_from_file)
+    #animation(locationsList)
     
  #70, -168
     #23, -61
